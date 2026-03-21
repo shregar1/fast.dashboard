@@ -1,7 +1,7 @@
 """
 `Metabase static embedding <https://www.metabase.com/docs/latest/embedding/static-embedding>`_.
 
-Requires ``PyJWT`` (``pip install PyJWT`` or ``fastmvc_dashboards[metabase]``).
+Requires ``PyJWT`` (``pip install PyJWT`` or ``fast_dashboards[metabase]``).
 """
 
 from __future__ import annotations

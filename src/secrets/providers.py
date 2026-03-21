@@ -12,7 +12,7 @@ from typing import Any, Optional
 
 from loguru import logger
 
-from fastmvc_dashboards._optional_import import optional_import
+from fast_dashboards._optional_import import optional_import
 
 try:
     from configurations.secrets import SecretsConfiguration

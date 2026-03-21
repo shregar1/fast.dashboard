@@ -4,11 +4,11 @@ import pytest
 
 pytest.importorskip("jwt")
 
-from fastmvc_dashboards.providers.base import DashboardEmbedProvider
-from fastmvc_dashboards.providers.grafana import GrafanaEmbedProvider
-from fastmvc_dashboards.providers.looker import LookerEmbedProvider
-from fastmvc_dashboards.providers.metabase import MetabaseEmbedProvider
-from fastmvc_dashboards.providers.powerbi import PowerBIEmbedProvider
+from fast_dashboards.providers.base import DashboardEmbedProvider
+from fast_dashboards.providers.grafana import GrafanaEmbedProvider
+from fast_dashboards.providers.looker import LookerEmbedProvider
+from fast_dashboards.providers.metabase import MetabaseEmbedProvider
+from fast_dashboards.providers.powerbi import PowerBIEmbedProvider
 
 
 def test_metabase_embed_url():
@@ -44,7 +44,7 @@ def test_grafana_embed_url():
 
 
 def test_grafana_embed_theme_and_tid():
-    from fastmvc_dashboards.embed_signing import verify_signed_embed_url
+    from fast_dashboards.embed_signing import verify_signed_embed_url
 
     p = GrafanaEmbedProvider(
         "https://grafana.example.com",

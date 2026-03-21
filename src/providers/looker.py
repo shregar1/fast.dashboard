@@ -7,7 +7,7 @@ See package README for a high-level integration recipe.
 
 class LookerEmbedProvider:
     """
-    Placeholder :class:`~fastmvc_dashboards.providers.base.DashboardEmbedProvider` implementation.
+    Placeholder :class:`~fast_dashboards.providers.base.DashboardEmbedProvider` implementation.
 
     Looker does not use a single static JWT like Metabase; use Looker's **Signed Embed** or
     **API** to obtain session URLs. Subclass or replace with your Looker client.
@@ -15,5 +15,5 @@ class LookerEmbedProvider:
 
     def build_embed_url(self, *, resource_id: str, ttl_seconds: int) -> str:
         raise NotImplementedError(
-            "Looker embed requires Looker Signed Embed / API; see fastmvc_dashboards README (Looker)."
+            "Looker embed requires Looker Signed Embed / API; see fast_dashboards README (Looker)."
         )

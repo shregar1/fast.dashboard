@@ -1,5 +1,5 @@
 [project]
-name = "fastmvc_dashboards"
+name = "fast_dashboards"
 version = "0.3.0"
 description = "Dashboards for FastMVC: embed signing, revocation, theme params, Metabase/Grafana/Looker/PowerBI stubs, routers."
 readme = "README.md"
@@ -17,14 +17,14 @@ dev = ["pytest>=7.0.0", "pytest-cov>=4.0.0", "httpx>=0.24.0", "PyJWT>=2.0.0"]
 metabase = ["PyJWT>=2.0.0"]
 
 [project.urls]
-Homepage = "https://github.com/your-org/fastmvc_dashboards"
+Homepage = "https://github.com/your-org/fast_dashboards"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
 
 [tool.coverage.run]
-source = ["src/fastmvc_dashboards"]
+source = ["src/fast_dashboards"]
 branch = false
 # Integration-heavy routers (host app imports) are not covered by unit tests; measure embed + providers + layout.
 omit = [
@@ -39,7 +39,7 @@ omit = [
     "*/workflows/*.py",
     "*/secrets/*.py",
     "*/router.py",
-    "src/fastmvc_dashboards/__init__.py",
+    "src/fast_dashboards/__init__.py",
     "*/queues_dashboard/__init__.py",
     "*/secrets_dashboard/__init__.py",
     "*/tenants_dashboard/__init__.py",
@@ -52,6 +52,10 @@ fail_under = 95
 show_missing = true
 exclude_lines = ["pragma: no cover"]
 omit = ["*/tests/*"]
+
+[tool.setuptools]
+package-dir = { "fast_dashboards" = "src" }
+packages = ["fast_dashboards"]
 
 [build-system]
 requires = ["setuptools>=61.0"]

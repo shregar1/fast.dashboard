@@ -1,8 +1,8 @@
 """Revocation list and theme/locale query params for signed embed URLs."""
 
-from fastmvc_dashboards.embed_revocation import InMemoryEmbedRevocationList
-from fastmvc_dashboards.embed_signing import sign_embed_url, verify_signed_embed_url
-from fastmvc_dashboards.embed_theme import EmbedThemeParams, theme_to_extra_params
+from fast_dashboards.embed_revocation import InMemoryEmbedRevocationList
+from fast_dashboards.embed_signing import sign_embed_url, verify_signed_embed_url
+from fast_dashboards.embed_theme import EmbedThemeParams, theme_to_extra_params
 
 
 def test_sign_embed_accepts_tid_theme_locale():

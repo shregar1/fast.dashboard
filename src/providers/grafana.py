@@ -1,11 +1,11 @@
 """
-Grafana dashboard URL helper with :mod:`fastmvc_dashboards.embed_signing` for optional signed query params.
+Grafana dashboard URL helper with :mod:`fast_dashboards.embed_signing` for optional signed query params.
 
 Typical pattern: ``/d/{uid}/{slug}`` — ``dashboard_uid`` is the Grafana dashboard UID; ``resource_id``
 is the URL slug segment (often short name).
 
 Grafana honors ``theme=dark|light`` (and ``locale`` in some builds) on the query string; these are
-signed together with ``exp`` / ``sig`` when passed to :func:`~fastmvc_dashboards.embed_signing.sign_embed_url`.
+signed together with ``exp`` / ``sig`` when passed to :func:`~fast_dashboards.embed_signing.sign_embed_url`.
 """
 
 from __future__ import annotations

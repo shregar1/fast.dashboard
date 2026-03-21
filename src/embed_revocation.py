@@ -1,7 +1,7 @@
 """
 Server-side revocation for signed embed URLs that include a ``tid`` (token id) query parameter.
 
-Pair with :func:`fastmvc_dashboards.embed_signing.sign_embed_url` when ``token_id`` is set.
+Pair with :func:`fast_dashboards.embed_signing.sign_embed_url` when ``token_id`` is set.
 """
 
 from __future__ import annotations

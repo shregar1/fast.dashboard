@@ -1,4 +1,4 @@
-# fastmvc_dashboards
+# fast_dashboards
 
 **Dashboard and analytics UI integrations** for FastMVC applications.
 
@@ -11,7 +11,7 @@ This package is a **placeholder or thin integration layer** for embedding operat
 Install from the monorepo when your application template references it:
 
 ```bash
-python -m pip install -e ./fastmvc_dashboards
+python -m pip install -e ./fast_dashboards
 ```
 
 Check `pyproject.toml` (if present) for the distribution name and dependencies.
@@ -20,7 +20,7 @@ Check `pyproject.toml` (if present) for the distribution name and dependencies.
 
 ## Related packages
 
-- **`fastmvc_admin`** — CRUD-style admin APIs
-- **`fastmvc_analytics`** — server-side event forwarding to analytics vendors
+- **`fast_admin`** — CRUD-style admin APIs
+- **`fast_analytics`** — server-side event forwarding to analytics vendors
 
 See [../README.md](../README.md).

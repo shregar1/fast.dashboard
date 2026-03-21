@@ -1,1 +1,1 @@
-"""Tests for fastmvc_dashboards."""
+"""Tests for fast_dashboards."""

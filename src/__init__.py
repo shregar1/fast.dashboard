@@ -1,11 +1,11 @@
 """
-fastmvc_dashboards – Dashboards extension for FastMVC.
+fast_dashboards – Dashboards extension for FastMVC.
 
 Requires the host app to provide: configurations.*, core.datastores,
 start_utils (db_session, redis_session), core.tenancy, services.secrets,
 services.workflows, and related modules. Use within a FastMVC application.
 
-Public attributes are loaded on first access so ``import fastmvc_dashboards.layout``
+Public attributes are loaded on first access so ``import fast_dashboards.layout``
 (and tests of layout helpers) work without the full app stack.
 """
 

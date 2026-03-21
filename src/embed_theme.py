@@ -1,7 +1,7 @@
 """
 Theme / locale helpers for signed embed query strings (Grafana, generic HMAC embeds).
 
-Metabase appearance is often fragment-based; see :class:`~fastmvc_dashboards.providers.metabase.MetabaseEmbedProvider`.
+Metabase appearance is often fragment-based; see :class:`~fast_dashboards.providers.metabase.MetabaseEmbedProvider`.
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ class EmbedThemeParams:
     """
     Appearance hints for dashboards that read ``theme`` / ``locale`` query parameters.
 
-    Pass into :func:`fastmvc_dashboards.embed_signing.sign_embed_url` via ``extra_params``
+    Pass into :func:`fast_dashboards.embed_signing.sign_embed_url` via ``extra_params``
     or use :func:`theme_to_extra_params`.
     """
 
