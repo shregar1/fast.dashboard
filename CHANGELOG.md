@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-03-21
+
 ### Added
 
-- Tooling aligned with the FastMVC monorepo (`Makefile`, pre-commit, Ruff, etc.).
+- **`embed_signing`**: `sign_embed_url`, `verify_signed_embed_url` (time-limited HMAC query params).
+- **`providers`**: `DashboardEmbedProvider`, `MetabaseEmbedProvider` (JWT; optional `PyJWT`), `GrafanaEmbedProvider` (signed `/d/{uid}/{slug}` URLs).
+- **`__version__`** = `0.2.0`; lazy exports on the package root for the above.
+- **Coverage config**: `omit` for large integration-only dashboard routers so `pytest --cov` reflects unit-tested modules (`embed_signing`, `providers`, `layout`, `api_dashboard/__init__`).
 

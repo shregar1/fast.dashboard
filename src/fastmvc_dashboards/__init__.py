@@ -11,20 +11,47 @@ Public attributes are loaded on first access so ``import fastmvc_dashboards.layo
 
 from __future__ import annotations
 
+__version__ = "0.2.0"
+
 __all__ = [
     "ApiDashboardRouter",
+    "DashboardEmbedProvider",
     "DashboardRouter",
     "EndpointSample",
+    "GrafanaEmbedProvider",
     "HealthDashboardRouter",
+    "MetabaseEmbedProvider",
     "QueuesDashboardRouter",
     "register_endpoint_sample",
     "SecretsDashboardRouter",
+    "sign_embed_url",
     "TenantsDashboardRouter",
+    "verify_signed_embed_url",
     "WorkflowsDashboardRouter",
 ]
 
 
 def __getattr__(name: str):
+    if name == "sign_embed_url":
+        from .embed_signing import sign_embed_url
+
+        return sign_embed_url
+    if name == "verify_signed_embed_url":
+        from .embed_signing import verify_signed_embed_url
+
+        return verify_signed_embed_url
+    if name == "DashboardEmbedProvider":
+        from .providers.base import DashboardEmbedProvider
+
+        return DashboardEmbedProvider
+    if name == "MetabaseEmbedProvider":
+        from .providers.metabase import MetabaseEmbedProvider
+
+        return MetabaseEmbedProvider
+    if name == "GrafanaEmbedProvider":
+        from .providers.grafana import GrafanaEmbedProvider
+
+        return GrafanaEmbedProvider
     if name == "ApiDashboardRouter":
         from .api_dashboard import ApiDashboardRouter
 
