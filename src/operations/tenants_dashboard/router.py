@@ -23,6 +23,8 @@ from configurations.identity import IdentityProvidersConfiguration
 from configurations.rate_limit import RateLimitConfiguration
 from core.tenancy.context import InMemoryTenantStore, Tenant
 
+from fast_dashboards.core.seo import render_dashboard_inline_head
+
 
 router = APIRouter(prefix="/dashboard/tenants", tags=["Tenants Dashboard"])
 
@@ -109,13 +111,19 @@ async def tenants_dashboard() -> HTMLResponse:
     """
     Render the tenants/auth/feature-flags dashboard page.
     """
-    html = """
+    _head_seo = render_dashboard_inline_head(
+        page_title="FastMVC Tenants & Auth Dashboard",
+        description="Tenants, identity providers, feature flags, and rate-limit configuration overview.",
+        path="/dashboard/tenants",
+    )
+    html = (
+        """
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>FastMVC Tenants & Auth Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    """
+        + _head_seo
+        + """
     <style>
       :root {
         --bg: #020617;
@@ -474,6 +482,7 @@ async def tenants_dashboard() -> HTMLResponse:
   </body>
 </html>
     """
+    )
     return HTMLResponse(content=html)
 
 

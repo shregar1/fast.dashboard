@@ -24,27 +24,27 @@ testpaths = ["tests"]
 pythonpath = ["src"]
 
 [tool.coverage.run]
-source = ["src/fast_dashboards"]
+source = ["src"]
 branch = false
 # Integration-heavy routers (host app imports) are not covered by unit tests; measure embed + providers + layout.
 omit = [
-    "*/_optional_import.py",
-    "*/api_dashboard/router.py",
-    "*/api_dashboard/registry.py",
-    "*/health/dashboard.py",
-    "*/queues_dashboard/router.py",
-    "*/secrets_dashboard/router.py",
-    "*/tenants_dashboard/router.py",
-    "*/workflows_dashboard/router.py",
-    "*/workflows/*.py",
-    "*/secrets/*.py",
-    "*/router.py",
-    "src/fast_dashboards/__init__.py",
-    "*/queues_dashboard/__init__.py",
-    "*/secrets_dashboard/__init__.py",
-    "*/tenants_dashboard/__init__.py",
-    "*/workflows_dashboard/__init__.py",
-    "*/health/__init__.py",
+    "*/core/_optional_import.py",
+    "*/operations/api_dashboard/router.py",
+    "*/operations/api_dashboard/registry.py",
+    "*/operations/health/dashboard.py",
+    "*/operations/queues_dashboard/router.py",
+    "*/operations/secrets_dashboard/router.py",
+    "*/operations/tenants_dashboard/router.py",
+    "*/operations/workflows_dashboard/router.py",
+    "*/operations/workflows/*.py",
+    "*/sec/secrets/*.py",
+    "*/core/router.py",
+    "src/__init__.py",
+    "*/operations/queues_dashboard/__init__.py",
+    "*/operations/secrets_dashboard/__init__.py",
+    "*/operations/tenants_dashboard/__init__.py",
+    "*/operations/workflows_dashboard/__init__.py",
+    "*/operations/health/__init__.py",
 ]
 
 [tool.coverage.report]
@@ -55,7 +55,22 @@ omit = ["*/tests/*"]
 
 [tool.setuptools]
 package-dir = { "fast_dashboards" = "src" }
-packages = ["fast_dashboards"]
+packages = [
+    "fast_dashboards",
+    "fast_dashboards.core",
+    "fast_dashboards.integrations",
+    "fast_dashboards.integrations.providers",
+    "fast_dashboards.operations",
+    "fast_dashboards.operations.api_dashboard",
+    "fast_dashboards.operations.health",
+    "fast_dashboards.operations.queues_dashboard",
+    "fast_dashboards.operations.secrets_dashboard",
+    "fast_dashboards.operations.tenants_dashboard",
+    "fast_dashboards.operations.workflows",
+    "fast_dashboards.operations.workflows_dashboard",
+    "fast_dashboards.sec",
+    "fast_dashboards.sec.secrets",
+]
 
 [build-system]
 requires = ["setuptools>=61.0"]

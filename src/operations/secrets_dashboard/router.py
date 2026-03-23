@@ -18,7 +18,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 
 from configurations.secrets import SecretsConfiguration
 
-from ..secrets import build_secrets_backend
+from fast_dashboards.sec.secrets import build_secrets_backend
 
 
 router = APIRouter(prefix="/dashboard/secrets", tags=["Secrets Dashboard"])
@@ -401,6 +401,7 @@ async def secrets_dashboard() -> HTMLResponse:
   </body>
 </html>
     """
+    )
     return HTMLResponse(content=html)
 
 

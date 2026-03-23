@@ -12,7 +12,8 @@
 - **`DashboardEmbedProvider`**, **`MetabaseEmbedProvider`**, **`GrafanaEmbedProvider`** — unified `build_embed_url(resource_id=..., ttl_seconds=...)`; Grafana supports **`theme`** / **`locale`** / **`token_id`**; Metabase supports **`theme`** (URL fragment) and **`locale`** (JWT params).
 - **`LookerEmbedProvider`**, **`PowerBIEmbedProvider`** — stubs; use Looker Signed Embed / Power BI **GenerateToken** (see below).
 - **Composite `DashboardRouter`** — nested routers (health, API, queues, tenants, secrets, workflows); **lazy-imported** from the package root so `fast_dashboards.layout` works without the full host app on `PYTHONPATH`.
-- **`layout.render_dashboard_page`**, **`BASE_CSS`** — shared HTML shell for dashboards.
+- **`layout.render_dashboard_page`**, **`BASE_CSS`** — shared HTML shell for dashboards with **production SEO** (Open Graph, Twitter Card, canonical URL when `FASTMVC_PUBLIC_BASE_URL` is set, JSON-LD `WebPage` + `SoftwareApplication`, `theme-color`, safe **`noindex, nofollow`** defaults for internal ops UIs).
+- **`core.seo`** — `PageSEO`, `render_seo_head`, `render_dashboard_inline_head`, and `robots_txt_*` helpers for public sites vs private dashboards.
 - **Per-area routers** — e.g. `HealthDashboardRouter`, `ApiDashboardRouter`, … (see `src/fast_dashboards/`).
 
 > **Note:** Many sub-routers expect host app modules (`core.datastores`, `start_utils`, configurations, …). Run inside a full FastMVC app or only import submodules you need (e.g. `layout`, `embed_signing`, `providers`).

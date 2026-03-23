@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from typing import Optional
 
+from .seo import PageSEO, default_dashboard_seo, render_seo_head
 
 BASE_CSS = """
       :root {
@@ -145,10 +146,19 @@ def render_dashboard_page(
     accent_gradient: Optional[str] = None,
     accent_bg_gradient: Optional[str] = None,
     accent_border: Optional[str] = None,
+    seo_path: str = "/",
+    seo: Optional[PageSEO] = None,
 ) -> str:
     """
     Compose a full HTML page for a dashboard using the shared layout.
+
+    Injects production SEO (Open Graph, Twitter Card, JSON-LD, canonical when
+    ``FASTMVC_PUBLIC_BASE_URL`` is set). Override with *seo* or pass *seo_path*
+    for accurate ``og:url`` / canonical paths.
     """
+
+    page_seo = seo or default_dashboard_seo(title, subtitle, path=seo_path)
+    head_seo = render_seo_head(page_seo)
 
     accent_gradient = accent_gradient or "rgba(ACCENT_R, ACCENT_G, ACCENT_B, 0.4)"
     accent_bg_gradient = accent_bg_gradient or "rgba(ACCENT_R, ACCENT_G, ACCENT_B, 0.24)"
@@ -175,9 +185,7 @@ def render_dashboard_page(
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>{title}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {head_seo}
     <style>
 {css}
     </style>
@@ -204,5 +212,5 @@ def render_dashboard_page(
     return html
 
 
-__all__ = ["render_dashboard_page"]
+__all__ = ["BASE_CSS", "render_dashboard_page"]
 

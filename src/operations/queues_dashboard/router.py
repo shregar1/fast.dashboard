@@ -22,13 +22,13 @@ from loguru import logger
 
 from configurations.jobs import JobsConfiguration
 from configurations.queues import QueuesConfiguration
-from core.utils.optional_imports import optional_import
+from core.utils.optional_imports import OptionalImports
 
-boto3, _ = optional_import("boto3")
-_celery_mod, Celery = optional_import("celery", "Celery")
-rq, _ = optional_import("rq")
-_redis_mod, Redis = optional_import("redis", "Redis")
-_rq_registry_mod, FailedJobRegistry = optional_import("rq.registry", "FailedJobRegistry")
+boto3, _ = OptionalImports.optional_import("boto3")
+_celery_mod, Celery = OptionalImports.optional_import("celery", "Celery")
+rq, _ = OptionalImports.optional_import("rq")
+_redis_mod, Redis = OptionalImports.optional_import("redis", "Redis")
+_rq_registry_mod, FailedJobRegistry = OptionalImports.optional_import("rq.registry", "FailedJobRegistry")
 
 
 router = APIRouter(prefix="/dashboard/queues", tags=["Queues Dashboard"])
@@ -157,13 +157,19 @@ async def queues_dashboard() -> HTMLResponse:
     """
     Render the queues & jobs dashboard page.
     """
-    html = """
+    _head_seo = render_dashboard_inline_head(
+        page_title="FastMVC Queues & Jobs Dashboard",
+        description="Queue backends, workers, and job runner status for RabbitMQ, SQS, NATS, Celery, RQ, and Dramatiq.",
+        path="/dashboard/queues",
+    )
+    html = (
+        """
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>FastMVC Queues & Jobs Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    """
+        + _head_seo
+        + """
     <style>
       :root {
         --bg: #020617;
@@ -475,6 +481,7 @@ async def queues_dashboard() -> HTMLResponse:
   </body>
 </html>
     """
+    )
     return HTMLResponse(content=html)
 
 

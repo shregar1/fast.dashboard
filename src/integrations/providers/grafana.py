@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from ..embed_signing import sign_embed_url
+from fast_dashboards.core.embed_signing import sign_embed_url
 
 
 class GrafanaEmbedProvider:

@@ -14,6 +14,8 @@ from fastapi.responses import HTMLResponse, JSONResponse
 
 from configurations.workflows import WorkflowsConfiguration
 
+from fast_dashboards.core.seo import render_dashboard_inline_head
+
 from ..workflows import OrderWorkflowService
 
 
@@ -25,13 +27,16 @@ async def workflows_dashboard() -> HTMLResponse:
     """
     Render the workflows dashboard page.
     """
-    html = """
+    _head_seo = render_dashboard_inline_head(
+        page_title="FastMVC Workflows Dashboard",
+        description="Workflow engine status, configuration, and example order lifecycle for FastMVC.",
+        path="/dashboard/workflows",
+    )
+    html = f"""
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>FastMVC Workflows Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {_head_seo}
     <style>
       :root {
         --bg: #020617;
@@ -269,6 +274,7 @@ async def workflows_dashboard() -> HTMLResponse:
   </body>
 </html>
     """
+    )
     return HTMLResponse(content=html)
 
 

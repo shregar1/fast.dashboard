@@ -25,6 +25,7 @@ from core.datastores import (
     RedisKeyValueStore,
     ScyllaWideColumnStore,
 )
+from fast_dashboards.core.seo import render_dashboard_inline_head
 from start_utils import db_session, redis_session
 
 
@@ -355,13 +356,16 @@ async def health_dashboard() -> HTMLResponse:
             """
         )
 
+    _head_seo = render_dashboard_inline_head(
+        page_title="FastMVC Service Health",
+        description="Live health checks for PostgreSQL, Redis, MongoDB, Elasticsearch, Cassandra, Scylla, DynamoDB, and Cosmos DB.",
+        path="/dashboard/health",
+    )
     html = f"""
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>FastMVC Service Health</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {_head_seo}
     <style>
       :root {{
         --bg: #050816;

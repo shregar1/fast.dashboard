@@ -9,12 +9,12 @@ from __future__ import annotations
 
 from fastapi import APIRouter
 
-from .api_dashboard import ApiDashboardRouter
-from .health import HealthDashboardRouter
-from .queues_dashboard import QueuesDashboardRouter
-from .secrets_dashboard import SecretsDashboardRouter
-from .tenants_dashboard import TenantsDashboardRouter
-from .workflows_dashboard import WorkflowsDashboardRouter
+from fast_dashboards.operations.api_dashboard import ApiDashboardRouter
+from fast_dashboards.operations.health import HealthDashboardRouter
+from fast_dashboards.operations.queues_dashboard import QueuesDashboardRouter
+from fast_dashboards.operations.secrets_dashboard import SecretsDashboardRouter
+from fast_dashboards.operations.tenants_dashboard import TenantsDashboardRouter
+from fast_dashboards.operations.workflows_dashboard import WorkflowsDashboardRouter
 
 
 router = APIRouter()

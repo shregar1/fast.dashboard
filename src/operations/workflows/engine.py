@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional
 
 from loguru import logger
 
-from fast_dashboards._optional_import import optional_import
+from fast_dashboards.core._optional_import import optional_import
 
 try:
     from configurations.workflows import WorkflowsConfiguration

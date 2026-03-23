@@ -15,6 +15,8 @@ import httpx
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 
+from fast_dashboards.core.seo import render_dashboard_inline_head
+
 from .registry import EndpointSample, get_endpoint_sample, list_endpoint_samples
 
 
@@ -42,13 +44,19 @@ async def api_dashboard() -> HTMLResponse:
     The page fetches live data from the same router's JSON endpoints to
     keep the backend logic simple and avoid static assets.
     """
-    html = """
+    _head_seo = render_dashboard_inline_head(
+        page_title="FastMVC API Dashboard",
+        description="Explore registered API endpoints, sample payloads, and live probes from the FastMVC API dashboard.",
+        path="/dashboard/api",
+    )
+    html = (
+        """
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>FastMVC API Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    """
+        + _head_seo
+        + """
     <style>
       :root {
         --bg: #020617;
@@ -548,6 +556,7 @@ async def api_dashboard() -> HTMLResponse:
   </body>
 </html>
     """
+    )
     return HTMLResponse(content=html)
 
 
