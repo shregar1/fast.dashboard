@@ -15,7 +15,7 @@ This module provides enterprise-ready features for:
 - Field-Level Encryption
 """
 
-# New P0 Features
+# New P0 Features - Production-grade enhancements
 from fast_dashboards.core.smart_cache import (
     SmartCacheManager,
     CacheConfig,
@@ -70,6 +70,45 @@ from fast_dashboards.core.encryption import (
     SearchableEncryption,
     searchable_encryption,
     setup_encryption,
+)
+from fast_dashboards.core.graphql_generator import (
+    GraphQLAutoGenerator,
+    graphql_query,
+    graphql_mutation,
+    TypeMapper,
+    GraphQLType,
+)
+from fast_dashboards.core.config_reload import (
+    ConfigReloader,
+    config_reloader,
+    ConfigChange,
+    WatchConfig,
+    ConfigFormat,
+    ConfigReloadMiddleware,
+    ConfigChangeSSE,
+)
+from fast_dashboards.core.saga import (
+    Saga,
+    SagaBuilder,
+    SagaStep,
+    SagaStepResult,
+    SagaContext,
+    SagaExecution,
+    SagaStatus,
+    SagaStepStatus,
+    saga,
+    step,
+    ok,
+    fail,
+)
+from fast_dashboards.core.time_travel import (
+    TimeTravelDebugger,
+    TimeTravelCLI,
+    recordable,
+    Recording,
+    Snapshot,
+    RecordingStatus,
+    recording_store,
 )
 
 from fast_dashboards.core.auth import (
@@ -302,6 +341,27 @@ __all__ = [
     "SearchableEncryption",
     "searchable_encryption",
     "setup_encryption",
+    # P1 Features - Advanced capabilities
+    "GraphQLAutoGenerator",
+    "graphql_query",
+    "graphql_mutation",
+    "ConfigReloader",
+    "config_reloader",
+    "ConfigChange",
+    "ConfigReloadMiddleware",
+    "Saga",
+    "SagaBuilder",
+    "saga",
+    "step",
+    "ok",
+    "fail",
+    "SagaContext",
+    "SagaStatus",
+    "TimeTravelDebugger",
+    "TimeTravelCLI",
+    "recordable",
+    "Recording",
+    "Snapshot",
 ]
 
 __version__ = "0.4.0"
