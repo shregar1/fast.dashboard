@@ -617,7 +617,7 @@ async def test_endpoint(key: str, request: Request) -> JSONResponse:
         except Exception:
             serialized = response.text or ""
         if len(serialized) > 400:
-            truncated_body = serialized[:400] + "…"
+            truncated_body = serialized[:400] + "…"  # type: ignore
         else:
             truncated_body = serialized
 
@@ -636,7 +636,7 @@ async def test_endpoint(key: str, request: Request) -> JSONResponse:
                 "ok": False,
                 "status": 0,
                 "latency_ms": elapsed_ms,
-                "error": str(exc),
+                "error": f"{exc}"[0:200],  # type: ignore
             },
             status_code=200,
         )

@@ -29,6 +29,13 @@ def _get_datastore_class(name: str) -> Optional[Any]:
     return _datastore_classes[name]
 
 
+def _truncate_text(text: str, limit: int) -> str:
+    """Safely truncate text to a limit."""
+    if len(text) <= limit:
+        return text
+    return text[0:limit]  # type: ignore
+
+
 router = APIRouter(prefix="/dashboard", tags=["Dashboard"])
 
 
@@ -76,7 +83,7 @@ def _check_postgres() -> Dict[str, Any]:
     except Exception as exc:
         logger.error(f"PostgreSQL health check failed: {exc}")
         status = "unhealthy"
-        message = f"{exc}"[:50]
+        message = _truncate_text(f"{exc}", 50)
         color = "#ef4444"
     return {
         "name": "PostgreSQL",
@@ -553,6 +560,7 @@ def _get_status_summary(services: List[Dict[str, Any]]) -> Dict[str, Any]:
         else "critical"
     )
 
+    health_val: float = (healthy / enabled * 100.0) if enabled > 0 else 0.0
     return {
         "total": total,
         "healthy": healthy,
@@ -560,7 +568,7 @@ def _get_status_summary(services: List[Dict[str, Any]]) -> Dict[str, Any]:
         "skipped": skipped,
         "enabled": enabled,
         "overall_status": overall_status,
-        "health_percent": round((healthy / enabled * 100) if enabled > 0 else 0.0, 1),
+        "health_percent": round(health_val, 1),  # type: ignore
     }
 
 
