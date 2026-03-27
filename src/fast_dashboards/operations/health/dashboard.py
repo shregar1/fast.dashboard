@@ -14,8 +14,8 @@ from fastapi.responses import HTMLResponse
 from loguru import logger
 from sqlalchemy import text
 
-from fast_dashboards.core.registry import registry
-from fast_dashboards.core.seo import render_dashboard_inline_head
+from ...core.registry import registry
+from ...core.seo import render_dashboard_inline_head
 
 # Lazy imports for datastores - resolved at runtime via registry
 _datastore_classes: Dict[str, Any] = {}
