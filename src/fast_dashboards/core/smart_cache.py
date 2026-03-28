@@ -35,6 +35,7 @@ from typing import (
 )
 from datetime import datetime, timedelta
 import time
+from typing import cast
 
 from loguru import logger
 
@@ -90,6 +91,7 @@ class CacheEntry(Generic[T]):
     value: T
     created_at: float
     expires_at: float
+    last_accessed: float = 0.0
     stale_at: Optional[float] = None  # When to serve stale while refreshing
     tags: Set[str] = field(default_factory=set)
     version: int = 1
@@ -102,7 +104,7 @@ class CacheEntry(Generic[T]):
         """Check if entry should be refreshed (but still servable)."""
         if self.stale_at is None:
             return self.is_expired()
-        return time.time() > self.stale_at
+        return time.time() > cast(float, self.stale_at)
 
     def is_fresh(self) -> bool:
         """Check if entry is fresh (not stale)."""
@@ -155,8 +157,9 @@ class InMemoryCacheBackend:
             if not entry:
                 return None
             if entry.is_expired():
-                del self._cache[key]
+                self._cache.pop(key, None)
                 return None
+            entry.last_accessed = time.time()
             return entry.value
 
     async def set(
@@ -169,14 +172,15 @@ class InMemoryCacheBackend:
         async with self._lock:
             # LRU eviction
             if len(self._cache) >= self._max_size and key not in self._cache:
-                oldest = min(self._cache.items(), key=lambda x: x[1].created_at)
-                del self._cache[oldest[0]]
+                oldest = min(self._cache.items(), key=lambda x: x[1].last_accessed or x[1].created_at)
+                self._cache.pop(oldest[0], None)
 
             now = time.time()
             entry = CacheEntry(
                 value=value,
                 created_at=now,
-                expires_at=now + (ttl or 300),
+                expires_at=now + (ttl if ttl is not None else 300),
+                last_accessed=now,
                 stale_at=now + (stale_ttl or 60) if stale_ttl else None,
             )
             self._cache[key] = entry
@@ -185,7 +189,7 @@ class InMemoryCacheBackend:
     async def delete(self, key: str) -> bool:
         async with self._lock:
             if key in self._cache:
-                del self._cache[key]
+                self._cache.pop(key, None)
                 return True
             return False
 
@@ -196,7 +200,7 @@ class InMemoryCacheBackend:
                 k for k in self._cache.keys() if self._match_pattern(k, pattern)
             ]
             for k in to_delete:
-                del self._cache[k]
+                self._cache.pop(k, None)
             return len(to_delete)
 
     def _match_pattern(self, key: str, pattern: str) -> bool:
@@ -270,12 +274,17 @@ class SmartCacheManager:
 
     def _deserialize(self, data: bytes) -> Any:
         """Deserialize bytes to value."""
-        if data[0] == 1:
-            data = zlib.decompress(data[1:])
+        if not data:
+            return None
+            
+        header = int(data[0]) if len(data) > 0 else 0
+        if header == 1:
+            data_to_load = data[1:]
+            data_to_load = zlib.decompress(data_to_load)
         else:
-            data = data[1:]
-
-        return pickle.loads(data)
+            data_to_load = data[1:]
+            
+        return pickle.loads(data_to_load)
 
     def _make_key(
         self,
@@ -338,31 +347,13 @@ class SmartCacheManager:
         ttl: Optional[int] = None,
         stale_ttl: Optional[int] = None,
     ) -> Any:
-        """Get from cache or compute and set (cache-aside pattern).
-        Implements stale-while-revalidate for zero-downtime refreshes.
-        """
+        """Get from cache or compute and set (cache-aside pattern)."""
         # Try to get from cache
-        data = await self.backend.get(key)
+        cached = await self.get(key)
+        if cached is not None:
+            return cached
 
-        if data:
-            entry: CacheEntry[bytes] = pickle.loads(data)
-
-            if entry.is_fresh():
-                # Fresh hit
-                self._stats["hits"] += 1
-                return self._deserialize(entry.value)
-
-            elif entry.is_stale() and not entry.is_expired():
-                # Stale hit - serve stale, refresh in background
-                self._stats["stale_hits"] += 1
-
-                # Trigger background refresh
-                asyncio.create_task(self._refresh(key, factory, ttl, stale_ttl))
-
-                return self._deserialize(entry.value)
-
-        # Cache miss - compute value
-        self._stats["misses"] += 1
+        # Cache miss - self.get() already counted the miss
         return await self._compute_and_store(key, factory, ttl, stale_ttl)
 
     async def _refresh(
@@ -395,11 +386,17 @@ class SmartCacheManager:
                     # Another request is computing this value
                     self._stats["deduplicated"] += 1
                     future = self._inflight[key]
-                    return await future
+                    # IMPORTANT: release lock before awaiting to prevent deadlock
+                # else: no inflight, fall through to compute
+                else:
+                    # Create future for this request
+                    future = asyncio.get_running_loop().create_future()
+                    self._inflight[key] = future
+                    future = None  # Signal that we are the producer
 
-                # Create future for this request
-                future = asyncio.get_event_loop().create_future()
-                self._inflight[key] = future
+            # If we found an inflight request, await it outside the lock
+            if self.config.request_deduplication and future is not None:
+                return await future
 
         try:
             # Compute value
@@ -411,9 +408,9 @@ class SmartCacheManager:
             # Complete the future for deduplicated requests
             if self.config.request_deduplication:
                 async with self._inflight_lock:
-                    future = self._inflight.pop(key, None)
-                    if future and not future.done():
-                        future.set_result(value)
+                    inflight_future = self._inflight.pop(key, None)
+                    if inflight_future and not inflight_future.done():
+                        inflight_future.set_result(value)
 
             return value
 
@@ -421,9 +418,9 @@ class SmartCacheManager:
             # Complete future with exception
             if self.config.request_deduplication:
                 async with self._inflight_lock:
-                    future = self._inflight.pop(key, None)
-                    if future and not future.done():
-                        future.set_exception(e)
+                    inflight_future = self._inflight.pop(key, None)
+                    if inflight_future and not inflight_future.done():
+                        inflight_future.set_exception(e)
             raise
 
     async def _call_async(self, func: Callable) -> Any:
@@ -432,7 +429,7 @@ class SmartCacheManager:
             return await func()
         else:
             # Run sync function in thread pool
-            loop = asyncio.get_event_loop()
+            loop = asyncio.get_running_loop()
             return await loop.run_in_executor(None, func)
 
     def cached(
@@ -443,7 +440,7 @@ class SmartCacheManager:
         tags: Optional[List[str]] = None,
         condition: Optional[Callable[[Any], bool]] = None,
         invalidate_on: Optional[List[str]] = None,
-    ):
+    ) -> Callable[[Callable], Callable]:
         """Decorator for caching function results.
 
         Args:
@@ -539,18 +536,21 @@ class SmartCacheManager:
                         logger.error(f"Invalidation handler failed: {e}")
                 deleted_count += 1
 
-        self._stats["invalidations"] += 1
+        stats_val = cast(int, self._stats.get("invalidations", 0))
+        self._stats["invalidations"] = stats_val + 1
         return deleted_count
 
-    def get_stats(self) -> Dict[str, int]:
+    def get_stats(self) -> Dict[str, Any]:
         """Get cache statistics."""
-        total = self._stats["hits"] + self._stats["misses"]
-        hit_rate = self._stats["hits"] / total if total > 0 else 0
+        hits = cast(int, self._stats["hits"])
+        misses = cast(int, self._stats["misses"])
+        total = hits + misses
+        hit_rate = hits / total if total > 0 else 0.0
 
         return {
             **self._stats,
             "total_requests": total,
-            "hit_rate": round(hit_rate * 100, 2),
+            "hit_rate": round(float(hit_rate * 100), 2),
             "hit_rate_formatted": f"{hit_rate:.1%}",
         }
 

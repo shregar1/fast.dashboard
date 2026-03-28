@@ -19,7 +19,7 @@ import inspect
 import time
 import uuid
 from collections import defaultdict
-from contextlib import contextmanager
+from contextlib import contextmanager, asynccontextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass, field
 from enum import Enum
@@ -42,11 +42,19 @@ from decimal import Decimal
 from loguru import logger
 
 
+def _safe_create_export_task(coro):
+    """Try to schedule an export coroutine, silently ignoring if no event loop."""
+    try:
+        loop = asyncio.get_running_loop()
+        loop.create_task(coro)
+    except RuntimeError:
+        # No running event loop (sync context): skip async export
+        pass
+
+
 # Context variables for trace propagation
-_current_span: ContextVar[Optional["Span"]] = ContextVar("current_span", default=None)
-_current_trace_id: ContextVar[Optional[str]] = ContextVar(
-    "current_trace_id", default=None
-)
+_current_span: ContextVar[Optional[Span]] = ContextVar("current_span", default=None)
+_current_trace_id: ContextVar[Optional[str]] = ContextVar("current_trace_id", default=None)
 
 
 class SpanKind(Enum):
@@ -128,10 +136,15 @@ class Span:
     attributes: Dict[str, Any] = field(default_factory=dict)
     events: List[SpanEvent] = field(default_factory=list)
     cost: CostBreakdown = field(default_factory=CostBreakdown)
+    _child_spans: List[Span] = field(default_factory=list, init=False)
+    _lock_internal: Optional[asyncio.Lock] = field(default=None, init=False)
 
-    def __post_init__(self):
-        self._child_spans: List[Span] = []
-        self._lock = asyncio.Lock()
+    @property
+    def _lock(self) -> asyncio.Lock:
+        # Lazy initialization to avoid binding to an event loop too early
+        if self._lock_internal is None:
+            self._lock_internal = asyncio.Lock()
+        return self._lock_internal
 
     @property
     def duration_ms(self) -> float:
@@ -231,7 +244,10 @@ class ConsoleSpanExporter:
             )
 
             if span.attributes:
-                for key, value in list(span.attributes.items())[:10]:
+                # Log first 10 attributes
+                attrs = list(span.attributes.items())
+                for i in range(min(10, len(attrs))):
+                    key, value = attrs[i]
                     logger.info(f"  {key}: {value}")
 
         return True
@@ -352,8 +368,13 @@ class Tracer:
         if self.config.enable_cost_tracking:
             self._track_cost(span)
 
-        # Add to pending export
-        asyncio.create_task(self._export_span(span))
+        # Add to pending export - try async first, fallback to sync
+        try:
+            loop = asyncio.get_running_loop()
+            loop.create_task(self._export_span(span))
+        except RuntimeError:
+            # No running event loop: export synchronously
+            self._export_span_sync(span)
 
         # Restore parent context
         if span.parent_id:
@@ -368,6 +389,16 @@ class Tracer:
                 await exporter.export([span])
             except Exception as e:
                 logger.error(f"Span export failed: {e}")
+
+        self._stats["spans_exported"] += 1
+
+    def _export_span_sync(self, span: Span) -> None:
+        """Export a span synchronously (fallback when no event loop is running)."""
+        for exporter in self._exporters:
+            try:
+                asyncio.run(exporter.export([span]))
+            except Exception as e:
+                logger.error(f"Span export failed (sync): {e}")
 
         self._stats["spans_exported"] += 1
 
@@ -438,6 +469,7 @@ class Tracer:
             self.finish_span(span, SpanStatus.ERROR)
             raise
 
+    @asynccontextmanager
     async def trace(
         self,
         name: str,
@@ -588,7 +620,7 @@ class DatabaseCostTracker:
         span.set_attribute("db.rows_affected", rows_affected)
 
 
-def trace_endpoint(tracer_instance: Tracer = tracer, cost_tracking: bool = True):
+def trace_endpoint(tracer_instance: Tracer = tracer, cost_tracking: bool = True) -> Any:
     """Decorator to trace FastAPI endpoints.
 
     Usage:
@@ -641,7 +673,8 @@ def trace_endpoint(tracer_instance: Tracer = tracer, cost_tracking: bool = True)
 
                 # Try to extract status code from result
                 if hasattr(result, "status_code"):
-                    span.set_attribute("http.status_code", result.status_code)
+                    status_code = getattr(result, "status_code")
+                    span.set_attribute("http.status_code", status_code)
 
                 tracer_instance.finish_span(span, SpanStatus.OK)
                 return result

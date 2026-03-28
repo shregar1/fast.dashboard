@@ -292,7 +292,9 @@ class TestCacheInvalidator:
     @pytest.mark.asyncio
     async def test_invalidate_resource(self):
         """Test invalidating resources."""
+        from fast_dashboards.core.smart_cache import CacheInvalidator
         cache = SmartCacheManager(backend=InMemoryCacheBackend())
+        invalidator = CacheInvalidator(cache)
 
         # Populate cache
         await cache.set("user:1", "value1")
@@ -300,7 +302,7 @@ class TestCacheInvalidator:
         await cache.set("product:1", "value3")
 
         # Invalidate users
-        deleted = await cache_invalidator.invalidate_resource("user")
+        deleted = await invalidator.invalidate_resource("user")
 
         assert deleted == 2
         assert await cache.get("user:1") is None
@@ -310,7 +312,9 @@ class TestCacheInvalidator:
     @pytest.mark.asyncio
     async def test_invalidate_tenant(self):
         """Test invalidating by tenant."""
+        from fast_dashboards.core.smart_cache import CacheInvalidator
         cache = SmartCacheManager(backend=InMemoryCacheBackend())
+        invalidator = CacheInvalidator(cache)
 
         # Populate cache with tenant-scoped keys
         await cache.set("data:tenant:abc123", "value1")
@@ -318,7 +322,7 @@ class TestCacheInvalidator:
         await cache.set("data:tenant:xyz789", "value3")
 
         # Invalidate tenant
-        deleted = await cache_invalidator.invalidate_tenant("abc123")
+        deleted = await invalidator.invalidate_tenant("abc123")
 
         assert deleted == 2
         assert await cache.get("data:tenant:abc123") is None

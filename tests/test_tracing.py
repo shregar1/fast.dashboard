@@ -304,26 +304,34 @@ class TestConsoleSpanExporter:
     @pytest.mark.asyncio
     async def test_export(self, capsys):
         """Test exporting spans to console."""
-        exporter = ConsoleSpanExporter()
+        import sys
+        from loguru import logger
 
-        import time
+        # Add stderr sink to make loguru output capturable
+        sink_id = logger.add(sys.stderr, format="{message}", level="INFO")
+        try:
+            exporter = ConsoleSpanExporter()
 
-        span = Span(
-            trace_id="abc123",
-            span_id="def456",
-            parent_id=None,
-            name="test_span",
-            kind=SpanKind.INTERNAL,
-            start_time=time.time(),
-        )
-        span.finish(SpanStatus.OK)
+            import time
 
-        result = await exporter.export([span])
-        assert result is True
+            span = Span(
+                trace_id="abc123",
+                span_id="def456",
+                parent_id=None,
+                name="test_span",
+                kind=SpanKind.INTERNAL,
+                start_time=time.time(),
+            )
+            span.finish(SpanStatus.OK)
 
-        # Check output
-        captured = capsys.readouterr()
-        assert "test_span" in captured.out or "test_span" in captured.err
+            result = await exporter.export([span])
+            assert result is True
+
+            # Check output
+            captured = capsys.readouterr()
+            assert "test_span" in captured.out or "test_span" in captured.err
+        finally:
+            logger.remove(sink_id)
 
 
 class TestInMemorySpanExporter:
