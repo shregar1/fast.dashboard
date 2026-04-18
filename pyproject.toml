@@ -78,6 +78,9 @@ omit = ["*/tests/*"]
 package-dir = { "" = "src" }
 packages = ["fast_dashboards", "fast_dashboards.core", "fast_dashboards.integrations", "fast_dashboards.integrations.providers", "fast_dashboards.operations", "fast_dashboards.operations.api_dashboard", "fast_dashboards.operations.health", "fast_dashboards.operations.queues_dashboard", "fast_dashboards.operations.secrets_dashboard", "fast_dashboards.operations.tenants_dashboard", "fast_dashboards.operations.workflows", "fast_dashboards.operations.workflows_dashboard", "fast_dashboards.sec", "fast_dashboards.sec.secrets"]
 
+[tool.setuptools.package-data]
+fast_dashboards = ["static/**/*", "static/*"]
+
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"

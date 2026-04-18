@@ -10,7 +10,7 @@ import os
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from loguru import logger
 from sqlalchemy import text
 
@@ -602,6 +602,14 @@ def _get_status_summary(services: List[Dict[str, Any]]) -> Dict[str, Any]:
         "overall_status": overall_status,
         "health_percent": round(health_val, 1),  # type: ignore
     }
+
+
+@router.get("/health/state", response_class=JSONResponse, summary="Health Dashboard State")
+async def health_dashboard_state() -> JSONResponse:
+    """Return service health checks and summary as JSON (consumed by the SPA)."""
+    services = _gather_services()
+    summary = _get_status_summary(services)
+    return JSONResponse({"services": services, "summary": summary})
 
 
 @router.get("/health", response_class=HTMLResponse, summary="Health Dashboard")
