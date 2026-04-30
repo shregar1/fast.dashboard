@@ -5,7 +5,7 @@ from typing import List, Optional
 
 # Register with registry on module load
 try:
-    from fast_dashboards.core.registry import registry
+    from fastx_dashboards.core.registry import registry
 
     _REGISTRY_AVAILABLE = True
 except ImportError:

@@ -12,42 +12,42 @@ class TestRoutersWithoutHostDependencies:
 
     def test_health_router_imports_standalone(self):
         """Test health router imports without host dependencies."""
-        from fast_dashboards.operations.health.dashboard import router
+        from fastx_dashboards.operations.health.dashboard import router
 
         assert router is not None
         assert router.prefix == "/dashboard"
 
     def test_queues_router_imports_standalone(self):
         """Test queues router imports without host dependencies."""
-        from fast_dashboards.operations.queues_dashboard.router import router
+        from fastx_dashboards.operations.queues_dashboard.router import router
 
         assert router is not None
         assert router.prefix == "/dashboard/queues"
 
     def test_tenants_router_imports_standalone(self):
         """Test tenants router imports without host dependencies."""
-        from fast_dashboards.operations.tenants_dashboard.router import router
+        from fastx_dashboards.operations.tenants_dashboard.router import router
 
         assert router is not None
         assert router.prefix == "/dashboard/tenants"
 
     def test_secrets_router_imports_standalone(self):
         """Test secrets router imports without host dependencies."""
-        from fast_dashboards.operations.secrets_dashboard.router import router
+        from fastx_dashboards.operations.secrets_dashboard.router import router
 
         assert router is not None
         assert router.prefix == "/dashboard/secrets"
 
     def test_workflows_router_imports_standalone(self):
         """Test workflows router imports without host dependencies."""
-        from fast_dashboards.operations.workflows_dashboard.router import router
+        from fastx_dashboards.operations.workflows_dashboard.router import router
 
         assert router is not None
         assert router.prefix == "/dashboard/workflows"
 
     def test_api_dashboard_router_imports_standalone(self):
         """Test API dashboard router imports without host dependencies."""
-        from fast_dashboards.operations.api_dashboard import router
+        from fastx_dashboards.operations.api_dashboard import router
 
         assert router is not None
 
@@ -57,7 +57,7 @@ class TestHealthDashboardWithoutDependencies:
 
     def test_health_dashboard_html_response(self):
         """Test health dashboard returns HTML even without db/redis."""
-        from fast_dashboards.operations.health.dashboard import router
+        from fastx_dashboards.operations.health.dashboard import router
 
         app = FastAPI()
         app.include_router(router)
@@ -70,7 +70,7 @@ class TestHealthDashboardWithoutDependencies:
 
     def test_health_services_report_skipped_when_no_deps(self):
         """Test that services report 'skipped' when dependencies unavailable."""
-        from fast_dashboards.operations.health.dashboard import _gather_services
+        from fastx_dashboards.operations.health.dashboard import _gather_services
 
         services = _gather_services()
 
@@ -92,7 +92,7 @@ class TestQueuesDashboardWithoutDependencies:
 
     def test_queues_dashboard_html_response(self):
         """Test queues dashboard returns HTML even without queue config."""
-        from fast_dashboards.operations.queues_dashboard.router import router
+        from fastx_dashboards.operations.queues_dashboard.router import router
 
         app = FastAPI()
         app.include_router(router)
@@ -105,7 +105,7 @@ class TestQueuesDashboardWithoutDependencies:
 
     def test_queues_state_returns_json(self):
         """Test queues state endpoint returns JSON."""
-        from fast_dashboards.operations.queues_dashboard.router import router
+        from fastx_dashboards.operations.queues_dashboard.router import router
 
         app = FastAPI()
         app.include_router(router)
@@ -127,7 +127,7 @@ class TestTenantsDashboardWithoutDependencies:
 
     def test_tenants_dashboard_html_response(self):
         """Test tenants dashboard returns HTML even without tenant store."""
-        from fast_dashboards.operations.tenants_dashboard.router import router
+        from fastx_dashboards.operations.tenants_dashboard.router import router
 
         app = FastAPI()
         app.include_router(router)
@@ -141,14 +141,14 @@ class TestTenantsDashboardWithoutDependencies:
     @pytest.mark.asyncio
     async def test_load_tenants_returns_empty_when_no_store(self):
         """Test that _load_tenants returns empty list when no tenant store."""
-        from fast_dashboards.core.registry import DependencyRegistry
-        from fast_dashboards.operations.tenants_dashboard.router import _load_tenants
+        from fastx_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.operations.tenants_dashboard.router import _load_tenants
 
         # Create fresh registry without tenant store
         fresh_reg = DependencyRegistry()
 
         # Temporarily patch the registry used by router
-        import fast_dashboards.operations.tenants_dashboard.router as router_module
+        import fastx_dashboards.operations.tenants_dashboard.router as router_module
 
         original_registry = getattr(router_module, "registry", None)
         router_module.registry = fresh_reg
@@ -163,7 +163,7 @@ class TestTenantsDashboardWithoutDependencies:
 
     def test_tenants_state_returns_json(self):
         """Test tenants state endpoint returns JSON."""
-        from fast_dashboards.operations.tenants_dashboard.router import router
+        from fastx_dashboards.operations.tenants_dashboard.router import router
 
         app = FastAPI()
         app.include_router(router)
@@ -184,7 +184,7 @@ class TestSecretsDashboardWithoutDependencies:
 
     def test_secrets_dashboard_html_response(self):
         """Test secrets dashboard returns HTML even without secrets config."""
-        from fast_dashboards.operations.secrets_dashboard.router import router
+        from fastx_dashboards.operations.secrets_dashboard.router import router
 
         app = FastAPI()
         app.include_router(router)
@@ -198,7 +198,7 @@ class TestSecretsDashboardWithoutDependencies:
     @pytest.mark.asyncio
     async def test_secrets_state_returns_json(self):
         """Test secrets state endpoint returns JSON."""
-        from fast_dashboards.operations.secrets_dashboard.router import router
+        from fastx_dashboards.operations.secrets_dashboard.router import router
 
         app = FastAPI()
         app.include_router(router)
@@ -225,7 +225,7 @@ class TestWorkflowsDashboardWithoutDependencies:
 
     def test_workflows_dashboard_html_response(self):
         """Test workflows dashboard returns HTML even without workflows config."""
-        from fast_dashboards.operations.workflows_dashboard.router import router
+        from fastx_dashboards.operations.workflows_dashboard.router import router
 
         app = FastAPI()
         app.include_router(router)
@@ -239,7 +239,7 @@ class TestWorkflowsDashboardWithoutDependencies:
     @pytest.mark.asyncio
     async def test_workflows_state_returns_json(self):
         """Test workflows state endpoint returns JSON."""
-        from fast_dashboards.operations.workflows_dashboard.router import router
+        from fastx_dashboards.operations.workflows_dashboard.router import router
 
         app = FastAPI()
         app.include_router(router)
@@ -258,7 +258,7 @@ class TestApiDashboardWithoutDependencies:
 
     def test_api_dashboard_html_response(self):
         """Test API dashboard returns HTML."""
-        from fast_dashboards.operations.api_dashboard import ApiDashboardRouter
+        from fastx_dashboards.operations.api_dashboard import ApiDashboardRouter
 
         app = FastAPI()
         app.include_router(ApiDashboardRouter)
@@ -270,7 +270,7 @@ class TestApiDashboardWithoutDependencies:
 
     def test_api_state_returns_json(self):
         """Test API state endpoint returns JSON."""
-        from fast_dashboards.operations.api_dashboard import ApiDashboardRouter
+        from fastx_dashboards.operations.api_dashboard import ApiDashboardRouter
 
         app = FastAPI()
         app.include_router(ApiDashboardRouter)
@@ -290,13 +290,13 @@ class TestCompositeRouter:
 
     def test_composite_router_imports(self):
         """Test that composite router can be imported."""
-        from fast_dashboards.core.router import router
+        from fastx_dashboards.core.router import router
 
         assert router is not None
 
     def test_composite_router_mounts_all_routers(self):
         """Test that composite router includes all dashboard routers."""
-        from fast_dashboards.core.router import router
+        from fastx_dashboards.core.router import router
 
         routes = [r.path for r in router.routes]
 
@@ -314,7 +314,7 @@ class TestGracefulDegradation:
 
     def test_queues_jobs_returns_error_info_when_no_config(self):
         """Test that jobs inspection returns error info when config unavailable."""
-        from fast_dashboards.operations.queues_dashboard.router import _inspect_jobs
+        from fastx_dashboards.operations.queues_dashboard.router import _inspect_jobs
 
         jobs = _inspect_jobs()
 
@@ -329,17 +329,17 @@ class TestGracefulDegradation:
 
     def test_feature_flags_returns_error_info_when_no_config(self):
         """Test that feature flags returns error info when config unavailable."""
-        from fast_dashboards.operations.tenants_dashboard.router import (
+        from fastx_dashboards.operations.tenants_dashboard.router import (
             _load_feature_flags,
         )
 
         # Create fresh registry to test without mocks
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
         # Temporarily replace global registry
-        from fast_dashboards import operations
+        from fastx_dashboards import operations
 
         original = (
             operations.tenants_dashboard.router.registry
@@ -355,12 +355,12 @@ class TestGracefulDegradation:
 
     def test_workflows_returns_error_info_when_no_config(self):
         """Test that workflows returns error info when config unavailable."""
-        from fast_dashboards.operations.workflows_dashboard.router import (
+        from fastx_dashboards.operations.workflows_dashboard.router import (
             _get_workflows_config,
         )
 
         # Create fresh registry without mocks
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -375,7 +375,7 @@ class TestWithRegisteredDependencies:
 
     def test_queues_with_registered_config(self):
         """Test queues dashboard uses registered config."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
 
         class MockQueuesConfig:
             """Represents the MockQueuesConfig class."""
@@ -418,7 +418,7 @@ class TestWithRegisteredDependencies:
         # Register the mock
         registry.register_config("queues", MockQueuesConfig)
 
-        from fast_dashboards.operations.queues_dashboard.router import (
+        from fastx_dashboards.operations.queues_dashboard.router import (
             _get_queues_config,
         )
 
@@ -430,7 +430,7 @@ class TestWithRegisteredDependencies:
 
     def test_workflows_with_registered_config(self):
         """Test workflows dashboard uses registered config."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
 
         class MockWorkflowsConfig:
             """Represents the MockWorkflowsConfig class."""
@@ -464,7 +464,7 @@ class TestWithRegisteredDependencies:
         # Register the mock
         registry.register_config("workflows", MockWorkflowsConfig)
 
-        from fast_dashboards.operations.workflows_dashboard.router import (
+        from fastx_dashboards.operations.workflows_dashboard.router import (
             _get_workflows_config,
         )
 

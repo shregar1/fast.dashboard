@@ -1,1 +1,1 @@
-"""Tests for fast_dashboards."""
+"""Tests for fastx_dashboards."""

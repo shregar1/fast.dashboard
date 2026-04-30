@@ -4,7 +4,7 @@ import asyncio
 import pytest
 from unittest.mock import AsyncMock, Mock, patch
 
-from fast_dashboards.core.saga import (
+from fastx_dashboards.core.saga import (
     Saga,
     SagaBuilder,
     SagaStep,

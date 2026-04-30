@@ -8,7 +8,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import AsyncMock, Mock, patch
 
-from fast_dashboards.core.config_reload import (
+from fastx_dashboards.core.config_reload import (
     ConfigReloader,
     ConfigChange,
     WatchConfig,

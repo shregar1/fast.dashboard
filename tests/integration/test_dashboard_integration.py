@@ -13,7 +13,7 @@ class TestHealthDashboardIntegration:
 
     def test_health_dashboard_services_structure(self):
         """Test that health dashboard returns proper service structure."""
-        from fast_dashboards.operations.health.dashboard import _gather_services
+        from fastx_dashboards.operations.health.dashboard import _gather_services
 
         services = _gather_services()
 
@@ -46,8 +46,8 @@ class TestQueuesDashboardIntegration:
 
     def test_queues_dashboard_with_mock_config(self):
         """Test queues dashboard with properly configured mock."""
-        from fast_dashboards.core.registry import registry
-        from fast_dashboards.operations.queues_dashboard.router import (
+        from fastx_dashboards.core.registry import registry
+        from fastx_dashboards.operations.queues_dashboard.router import (
             router as queues_router,
         )
 
@@ -119,7 +119,7 @@ class TestQueuesDashboardIntegration:
 
     def test_queues_inspection_functions(self):
         """Test queue inspection functions directly."""
-        from fast_dashboards.operations.queues_dashboard.router import _inspect_sqs
+        from fastx_dashboards.operations.queues_dashboard.router import _inspect_sqs
 
         # Create mock config objects
         class MockSQSConfig:
@@ -139,8 +139,8 @@ class TestTenantsDashboardIntegration:
 
     def test_tenants_dashboard_with_custom_store(self):
         """Test tenants dashboard with custom tenant store."""
-        from fast_dashboards.core.registry import registry
-        from fast_dashboards.operations.tenants_dashboard.router import (
+        from fastx_dashboards.core.registry import registry
+        from fastx_dashboards.operations.tenants_dashboard.router import (
             router as tenants_router,
         )
 
@@ -224,8 +224,8 @@ class TestTenantsDashboardIntegration:
 
     def test_tenants_with_feature_flags_config(self):
         """Test tenants dashboard with feature flags config."""
-        from fast_dashboards.core.registry import registry
-        from fast_dashboards.operations.tenants_dashboard.router import (
+        from fastx_dashboards.core.registry import registry
+        from fastx_dashboards.operations.tenants_dashboard.router import (
             _load_feature_flags,
         )
 
@@ -287,8 +287,8 @@ class TestSecretsDashboardIntegration:
 
     def test_secrets_dashboard_with_custom_config(self):
         """Test secrets dashboard with custom secrets config."""
-        from fast_dashboards.core.registry import registry
-        from fast_dashboards.operations.secrets_dashboard.router import (
+        from fastx_dashboards.core.registry import registry
+        from fastx_dashboards.operations.secrets_dashboard.router import (
             router as secrets_router,
         )
 
@@ -357,8 +357,8 @@ class TestWorkflowsDashboardIntegration:
 
     def test_workflows_dashboard_with_temporal_config(self):
         """Test workflows dashboard with Temporal configuration."""
-        from fast_dashboards.core.registry import registry
-        from fast_dashboards.operations.workflows_dashboard.router import (
+        from fastx_dashboards.core.registry import registry
+        from fastx_dashboards.operations.workflows_dashboard.router import (
             router as workflows_router,
         )
 
@@ -416,8 +416,8 @@ class TestWorkflowsDashboardIntegration:
 
     def test_workflows_dashboard_with_prefect_config(self):
         """Test workflows dashboard with Prefect configuration."""
-        from fast_dashboards.core.registry import registry
-        from fast_dashboards.operations.workflows_dashboard.router import (
+        from fastx_dashboards.core.registry import registry
+        from fastx_dashboards.operations.workflows_dashboard.router import (
             router as workflows_router,
         )
 
@@ -469,7 +469,7 @@ class TestCompositeDashboardIntegration:
 
     def test_all_dashboards_mounted_together(self):
         """Test that all dashboards can be mounted together."""
-        from fast_dashboards.core.router import router as composite_router
+        from fastx_dashboards.core.router import router as composite_router
 
         app = FastAPI()
         app.include_router(composite_router)
@@ -491,7 +491,7 @@ class TestCompositeDashboardIntegration:
 
     def test_all_state_endpoints(self):
         """Test that all state endpoints return JSON."""
-        from fast_dashboards.core.router import router as composite_router
+        from fastx_dashboards.core.router import router as composite_router
 
         app = FastAPI()
         app.include_router(composite_router)
@@ -519,7 +519,7 @@ class TestRegistryIntegrationWithApp:
 
     def test_registry_isolation_between_apps(self):
         """Test that registry can be used with multiple apps."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg1 = DependencyRegistry()
         reg2 = DependencyRegistry()

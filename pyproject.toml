@@ -1,6 +1,6 @@
 [project]
 name = "fastx-dashboards"
-version = "1.6.0"
+version = "1.7.0"
 description = "Dashboards for FastMVC: embed signing, revocation, theme params, Metabase/Grafana/Looker/PowerBI stubs, routers."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -76,10 +76,10 @@ omit = ["*/tests/*"]
 
 [tool.setuptools]
 package-dir = { "" = "src" }
-packages = ["fast_dashboards", "fast_dashboards.core", "fast_dashboards.integrations", "fast_dashboards.integrations.providers", "fast_dashboards.operations", "fast_dashboards.operations.api_dashboard", "fast_dashboards.operations.health", "fast_dashboards.operations.queues_dashboard", "fast_dashboards.operations.secrets_dashboard", "fast_dashboards.operations.tenants_dashboard", "fast_dashboards.operations.workflows", "fast_dashboards.operations.workflows_dashboard", "fast_dashboards.sec", "fast_dashboards.sec.secrets"]
+packages = ["fastx_dashboards", "fastx_dashboards.core", "fastx_dashboards.integrations", "fastx_dashboards.integrations.providers", "fastx_dashboards.operations", "fastx_dashboards.operations.api_dashboard", "fastx_dashboards.operations.health", "fastx_dashboards.operations.queues_dashboard", "fastx_dashboards.operations.secrets_dashboard", "fastx_dashboards.operations.tenants_dashboard", "fastx_dashboards.operations.workflows", "fastx_dashboards.operations.workflows_dashboard", "fastx_dashboards.sec", "fastx_dashboards.sec.secrets"]
 
 [tool.setuptools.package-data]
-fast_dashboards = ["static/**/*", "static/*"]
+fastx_dashboards = ["static/**/*", "static/*"]
 
 [build-system]
 requires = ["setuptools>=61.0"]

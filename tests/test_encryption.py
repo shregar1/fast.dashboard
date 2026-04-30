@@ -4,7 +4,7 @@ import base64
 import pytest
 from unittest.mock import Mock, patch
 
-from fast_dashboards.core.encryption import (
+from fastx_dashboards.core.encryption import (
     MasterKeyProvider,
     FieldEncryption,
     EncryptedString,
@@ -75,7 +75,7 @@ class TestFieldEncryption:
 
     @pytest.mark.skipif(
         "AESGCM"
-        not in dir(__import__("fast_dashboards.core.encryption", fromlist=[""])),
+        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
         reason="AESGCM not available",
     )
     def test_encrypt_decrypt_string(self, encryption):
@@ -91,7 +91,7 @@ class TestFieldEncryption:
 
     @pytest.mark.skipif(
         "AESGCM"
-        not in dir(__import__("fast_dashboards.core.encryption", fromlist=[""])),
+        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
         reason="AESGCM not available",
     )
     def test_encrypt_bytes(self, encryption):
@@ -105,7 +105,7 @@ class TestFieldEncryption:
 
     @pytest.mark.skipif(
         "AESGCM"
-        not in dir(__import__("fast_dashboards.core.encryption", fromlist=[""])),
+        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
         reason="AESGCM not available",
     )
     def test_deterministic_encryption(self, encryption):
@@ -121,7 +121,7 @@ class TestFieldEncryption:
 
     @pytest.mark.skipif(
         "AESGCM"
-        not in dir(__import__("fast_dashboards.core.encryption", fromlist=[""])),
+        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
         reason="AESGCM not available",
     )
     def test_randomized_encryption(self, encryption):
@@ -193,7 +193,7 @@ class TestSearchableEncryption:
 
     @pytest.mark.skipif(
         "AESGCM"
-        not in dir(__import__("fast_dashboards.core.encryption", fromlist=[""])),
+        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
         reason="AESGCM not available",
     )
     def test_prepare_for_insert(self, searchable):
@@ -289,7 +289,7 @@ class TestIntegration:
 
     @pytest.mark.skipif(
         "AESGCM"
-        not in dir(__import__("fast_dashboards.core.encryption", fromlist=[""])),
+        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
         reason="AESGCM not available",
     )
     def test_full_workflow(self):

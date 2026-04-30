@@ -5,7 +5,7 @@ import pytest
 from decimal import Decimal
 from unittest.mock import AsyncMock, Mock
 
-from fast_dashboards.core.tracing import (
+from fastx_dashboards.core.tracing import (
     Tracer,
     TracingConfig,
     Span,

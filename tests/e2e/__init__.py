@@ -1,1 +1,1 @@
-"""End-to-end tests for fast_dashboards."""
+"""End-to-end tests for fastx_dashboards."""

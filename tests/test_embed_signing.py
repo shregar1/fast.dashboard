@@ -3,7 +3,7 @@
 import time
 from unittest.mock import patch
 
-from fast_dashboards.core.embed_signing import sign_embed_url, verify_signed_embed_url
+from fastx_dashboards.core.embed_signing import sign_embed_url, verify_signed_embed_url
 
 
 def test_sign_verify_roundtrip():
@@ -33,7 +33,7 @@ def test_verify_rejects_expired():
     url = "https://a.com/x"
     signed = sign_embed_url(url, secret, ttl_seconds=1)
     with patch(
-        "fast_dashboards.core.embed_signing.time.time", return_value=time.time() + 99999
+        "fastx_dashboards.core.embed_signing.time.time", return_value=time.time() + 99999
     ):
         assert verify_signed_embed_url(signed, secret) is None
 

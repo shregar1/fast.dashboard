@@ -316,7 +316,7 @@ class TestMockConfigRegistration:
 
     def test_all_configs_registered(self):
         """Test that all config mocks are registered."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
 
         configs = [
             "jobs",
@@ -337,7 +337,7 @@ class TestMockConfigRegistration:
 
     def test_all_datastores_registered(self):
         """Test that all datastore mocks are registered."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
 
         datastores = [
             "MongoDocumentStore",
@@ -356,7 +356,7 @@ class TestMockConfigRegistration:
 
     def test_config_instances_work(self):
         """Test that registered config instances return valid configs."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
 
         configs = ["jobs", "queues", "workflows", "secrets"]
 

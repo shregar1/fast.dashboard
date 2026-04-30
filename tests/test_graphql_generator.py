@@ -4,7 +4,7 @@ import pytest
 from dataclasses import dataclass
 from typing import List, Optional
 
-from fast_dashboards.core.graphql_generator import (
+from fastx_dashboards.core.graphql_generator import (
     TypeMapper,
     GraphQLSchemaGenerator,
     GraphQLType,

@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from unittest.mock import Mock, patch
 
-from fast_dashboards.core.time_travel import (
+from fastx_dashboards.core.time_travel import (
     TimeTravelDebugger,
     TimeTravelCLI,
     Recording,
@@ -272,7 +272,7 @@ class TestIntegration:
     def test_full_recording_workflow(self, tmp_path):
         """Test complete recording workflow."""
         # Create a new store pointing to temp path
-        from fast_dashboards.core.time_travel import RecordingStore
+        from fastx_dashboards.core.time_travel import RecordingStore
 
         store = RecordingStore(directory=tmp_path)
 

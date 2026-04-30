@@ -22,7 +22,7 @@ class TestEndToEndDashboardWorkflows:
         5. Checks secrets configuration
         6. Views workflows status
         """
-        from fast_dashboards.core.router import router as composite_router
+        from fastx_dashboards.core.router import router as composite_router
 
         app = FastAPI()
         app.include_router(composite_router)
@@ -66,9 +66,9 @@ class TestEndToEndDashboardWorkflows:
         3. Views configuration
         4. Takes action based on findings
         """
-        from fast_dashboards.core.registry import DependencyRegistry
-        from fast_dashboards.operations.health.dashboard import router as health_router
-        from fast_dashboards.operations.secrets_dashboard.router import (
+        from fastx_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.operations.health.dashboard import router as health_router
+        from fastx_dashboards.operations.secrets_dashboard.router import (
             router as secrets_router,
         )
 
@@ -124,8 +124,8 @@ class TestEndToEndDashboardWorkflows:
         3. Monitors job workers
         4. Refreshes state endpoint
         """
-        from fast_dashboards.core.registry import registry
-        from fast_dashboards.operations.queues_dashboard.router import (
+        from fastx_dashboards.core.registry import registry
+        from fastx_dashboards.operations.queues_dashboard.router import (
             router as queues_router,
         )
 
@@ -193,8 +193,8 @@ class TestEndToEndDashboardWorkflows:
         3. Checks AWS secrets
         4. Validates env diff
         """
-        from fast_dashboards.core.registry import registry
-        from fast_dashboards.operations.secrets_dashboard.router import (
+        from fastx_dashboards.core.registry import registry
+        from fastx_dashboards.operations.secrets_dashboard.router import (
             router as secrets_router,
         )
 
@@ -267,8 +267,8 @@ class TestEndToEndMultiTenantSetup:
         2. Identity providers configured
         3. Rate limits visible
         """
-        from fast_dashboards.core.registry import registry
-        from fast_dashboards.operations.tenants_dashboard.router import (
+        from fastx_dashboards.core.registry import registry
+        from fastx_dashboards.operations.tenants_dashboard.router import (
             router as tenants_router,
         )
 
@@ -425,8 +425,8 @@ class TestEndToEndWorkflowMonitoring:
         2. Checks Temporal configuration
         3. Views recent runs
         """
-        from fast_dashboards.core.registry import registry
-        from fast_dashboards.operations.workflows_dashboard.router import (
+        from fastx_dashboards.core.registry import registry
+        from fastx_dashboards.operations.workflows_dashboard.router import (
             router as workflows_router,
         )
 
@@ -490,8 +490,8 @@ class TestEndToEndWorkflowMonitoring:
         2. Opens workflows dashboard
         3. Verifies Prefect API connection
         """
-        from fast_dashboards.core.registry import registry
-        from fast_dashboards.operations.workflows_dashboard.router import (
+        from fastx_dashboards.core.registry import registry
+        from fastx_dashboards.operations.workflows_dashboard.router import (
             router as workflows_router,
         )
 
@@ -547,7 +547,7 @@ class TestEndToEdgeCaseScenarios:
         2. All dashboards should still load
         3. Show appropriate messages
         """
-        from fast_dashboards.core.router import router as composite_router
+        from fastx_dashboards.core.router import router as composite_router
 
         # Create app with composite router
         app = FastAPI()
@@ -573,8 +573,8 @@ class TestEndToEdgeCaseScenarios:
         2. Some configs missing
         3. Dashboard shows available data
         """
-        from fast_dashboards.core.registry import DependencyRegistry
-        from fast_dashboards.operations.tenants_dashboard.router import (
+        from fastx_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.operations.tenants_dashboard.router import (
             router as tenants_router,
         )
 
@@ -612,7 +612,7 @@ class TestEndToEdgeCaseScenarios:
 
         reg.register_config("feature_flags", PartialFeatureFlags)
 
-        from fast_dashboards import operations
+        from fastx_dashboards import operations
 
         original_get_config = (
             operations.tenants_dashboard.router.registry.get_config
@@ -635,6 +635,6 @@ def _get_health_services(client: TestClient) -> list:
     response = client.get("/dashboard/health")
     assert response.status_code == 200
     # Return list of services from actual data
-    from fast_dashboards.operations.health.dashboard import _gather_services
+    from fastx_dashboards.operations.health.dashboard import _gather_services
 
     return _gather_services()

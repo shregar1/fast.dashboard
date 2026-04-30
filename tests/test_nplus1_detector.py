@@ -4,7 +4,7 @@ import asyncio
 import pytest
 from unittest.mock import Mock, patch
 
-from fast_dashboards.core.nplus1_detector import (
+from fastx_dashboards.core.nplus1_detector import (
     NPlus1Detector,
     NPlus1Pattern,
     NPlus1Severity,

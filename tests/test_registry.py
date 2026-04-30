@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 from typing import Any, Dict
 
-from fast_dashboards.core.registry import (
+from fastx_dashboards.core.registry import (
     DependencyRegistry,
     registry,
     ConfigProvider,
@@ -290,7 +290,7 @@ class TestMockConfigsRegistration:
 
     def test_mock_jobs_config_registered(self):
         """Test that mock jobs config is available when mocks are imported."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
         from tests.mocks.configurations.jobs import JobsConfiguration
 
         cfg = registry.get_config("jobs")
@@ -300,7 +300,7 @@ class TestMockConfigsRegistration:
 
     def test_mock_queues_config_registered(self):
         """Test that mock queues config is available when mocks are imported."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
         from tests.mocks.configurations.queues import QueuesConfiguration
 
         cfg = registry.get_config("queues")
@@ -309,7 +309,7 @@ class TestMockConfigsRegistration:
 
     def test_mock_workflows_config_registered(self):
         """Test that mock workflows config is available when mocks are imported."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
         from tests.mocks.configurations.workflows import WorkflowsConfiguration
 
         cfg = registry.get_config("workflows")
@@ -318,7 +318,7 @@ class TestMockConfigsRegistration:
 
     def test_mock_secrets_config_registered(self):
         """Test that mock secrets config is available when mocks are imported."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
         from tests.mocks.configurations.secrets import SecretsConfiguration
 
         cfg = registry.get_config("secrets")
@@ -327,7 +327,7 @@ class TestMockConfigsRegistration:
 
     def test_mock_feature_flags_config_registered(self):
         """Test that mock feature flags config is available when mocks are imported."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
         from tests.mocks.configurations.feature_flags import FeatureFlagsConfiguration
 
         cfg = registry.get_config("feature_flags")
@@ -336,7 +336,7 @@ class TestMockConfigsRegistration:
 
     def test_mock_identity_config_registered(self):
         """Test that mock identity config is available when mocks are imported."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
         from tests.mocks.configurations.identity import IdentityProvidersConfiguration
 
         cfg = registry.get_config("identity")
@@ -345,7 +345,7 @@ class TestMockConfigsRegistration:
 
     def test_mock_rate_limit_config_registered(self):
         """Test that mock rate limit config is available when mocks are imported."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
         from tests.mocks.configurations.rate_limit import RateLimitConfiguration
 
         cfg = registry.get_config("rate_limit")
@@ -354,7 +354,7 @@ class TestMockConfigsRegistration:
 
     def test_mock_datastores_registered(self):
         """Test that mock datastores are available when mocks are imported."""
-        from fast_dashboards.core.registry import registry
+        from fastx_dashboards.core.registry import registry
 
         # Datastores may be mocks or real depending on import order
         # Just verify we can get them without error

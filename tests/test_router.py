@@ -7,7 +7,7 @@ def test_layout_base_css():
     Returns:
         The result of the operation.
     """
-    from fast_dashboards.core.layout import BASE_CSS
+    from fastx_dashboards.core.layout import BASE_CSS
 
     assert "--bg:" in BASE_CSS
     assert "var(--text)" in BASE_CSS
@@ -19,7 +19,7 @@ def test_render_dashboard_page():
     Returns:
         The result of the operation.
     """
-    from fast_dashboards.core.layout import render_dashboard_page
+    from fastx_dashboards.core.layout import render_dashboard_page
 
     html = render_dashboard_page(
         title="Test",
@@ -41,7 +41,7 @@ def test_render_dashboard_page_invalid_accent_hex():
     Returns:
         The result of the operation.
     """
-    from fast_dashboards.core.layout import render_dashboard_page
+    from fastx_dashboards.core.layout import render_dashboard_page
 
     html = render_dashboard_page(
         title="T",

@@ -13,7 +13,7 @@ class TestRegistryConfigVariations:
 
     def test_registry_with_simple_config(self):
         """Test registry with simple configuration object."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -45,7 +45,7 @@ class TestRegistryConfigVariations:
 
     def test_registry_with_nested_config(self):
         """Test registry with deeply nested configuration."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -95,7 +95,7 @@ class TestRegistryConfigVariations:
 
     def test_registry_with_callable_config(self):
         """Test registry with callable-based configuration."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -137,7 +137,7 @@ class TestRegistryDatastoreVariations:
 
     def test_registry_with_async_datastore(self):
         """Test registry with async datastore class."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -178,7 +178,7 @@ class TestRegistryDatastoreVariations:
 
     def test_registry_with_singleton_datastore(self):
         """Test registry with singleton datastore pattern."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -217,7 +217,7 @@ class TestRegistryDatastoreVariations:
 
     def test_registry_with_factory_datastore(self):
         """Test registry with factory-based datastore."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -257,7 +257,7 @@ class TestRegistrySessionProviders:
     @pytest.mark.asyncio
     async def test_registry_with_async_db_session(self):
         """Test registry with async database session provider."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -307,7 +307,7 @@ class TestRegistrySessionProviders:
 
     def test_registry_with_context_manager_session(self):
         """Test registry with context manager-based session."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
         from contextlib import contextmanager
 
         reg = DependencyRegistry()
@@ -359,7 +359,7 @@ class TestRegistrySessionProviders:
 
     def test_registry_with_sync_redis_session(self):
         """Test registry with sync Redis session provider."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -408,7 +408,7 @@ class TestRegistryTenantStorePatterns:
 
     def test_registry_with_sync_tenant_store(self):
         """Test registry with synchronous tenant store."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -443,7 +443,7 @@ class TestRegistryTenantStorePatterns:
 
     def test_registry_with_async_tenant_store(self):
         """Test registry with asynchronous tenant store."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -477,7 +477,7 @@ class TestRegistryTenantStorePatterns:
 
     def test_registry_with_caching_tenant_store(self):
         """Test registry with caching tenant store."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -523,7 +523,7 @@ class TestRegistryWithFastAPIIntegration:
 
     def test_registry_dependency_injection(self):
         """Test using registry with FastAPI dependency injection."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
         from fastapi import Depends
 
         reg = DependencyRegistry()
@@ -580,7 +580,7 @@ class TestRegistryWithFastAPIIntegration:
 
     def test_registry_with_app_lifecycle(self):
         """Test registry across app startup/shutdown."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
         lifecycle_events = []
@@ -640,7 +640,7 @@ class TestRegistryWithFastAPIIntegration:
 
     def test_registry_multiple_configs_same_app(self):
         """Test multiple configurations in same app."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -738,7 +738,7 @@ class TestRegistryEdgeCases:
 
     def test_registry_with_none_values(self):
         """Test registry handles None values gracefully."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -751,7 +751,7 @@ class TestRegistryEdgeCases:
 
     def test_registry_overwrite_existing(self):
         """Test overwriting existing registration."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -774,7 +774,7 @@ class TestRegistryEdgeCases:
 
     def test_registry_thread_safety_simulation(self):
         """Test registry behavior under concurrent access simulation."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 
@@ -813,7 +813,7 @@ class TestRegistryEdgeCases:
 
     def test_registry_with_exception_in_config(self):
         """Test registry handles exceptions in config methods."""
-        from fast_dashboards.core.registry import DependencyRegistry
+        from fastx_dashboards.core.registry import DependencyRegistry
 
         reg = DependencyRegistry()
 

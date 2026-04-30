@@ -9,7 +9,7 @@ def test_render_seo_head_includes_og_and_robots():
     Returns:
         The result of the operation.
     """
-    from fast_dashboards.core.seo import PageSEO, render_seo_head
+    from fastx_dashboards.core.seo import PageSEO, render_seo_head
 
     seo = PageSEO(
         title="T",
@@ -34,7 +34,7 @@ def test_canonical_from_env(monkeypatch):
     Returns:
         The result of the operation.
     """
-    from fast_dashboards.core.seo import default_dashboard_seo, render_seo_head
+    from fastx_dashboards.core.seo import default_dashboard_seo, render_seo_head
 
     monkeypatch.setenv("FASTMVC_PUBLIC_BASE_URL", "https://app.example.com")
     seo = default_dashboard_seo("Page", "Desc", path="/dashboard/queues")
@@ -49,7 +49,7 @@ def test_robots_txt_helpers():
     Returns:
         The result of the operation.
     """
-    from fast_dashboards.core.seo import (
+    from fastx_dashboards.core.seo import (
         robots_txt_private_dashboards,
         robots_txt_public_site,
     )
