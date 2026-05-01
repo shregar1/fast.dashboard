@@ -184,3 +184,8 @@ local_config.py
 
 # FastMVC local artifacts
 .fastmvc/
+
+# Archives
+*.zip
+*.tar.gz
+*.tgz
