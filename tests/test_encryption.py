@@ -16,11 +16,7 @@ from fastx_dashboards.core.encryption import (
     model_encryption,
 )
 
-
-# Skip tests if cryptography is not available
-pytestmark = pytest.mark.skipif(
-    not hasattr(FieldEncryption, "VERSION"), reason="cryptography package not installed"
-)
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 
 class TestMasterKeyProvider:
@@ -69,15 +65,10 @@ class TestFieldEncryption:
     @pytest.fixture
     def encryption(self):
         """Create encryption with test key."""
-        key = AESGCM.generate_key(bit_length=256) if "AESGCM" in dir() else b"x" * 32
+        key = AESGCM.generate_key(bit_length=256)
         provider = MasterKeyProvider(master_key=key)
         return FieldEncryption(key_provider=provider)
 
-    @pytest.mark.skipif(
-        "AESGCM"
-        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
-        reason="AESGCM not available",
-    )
     def test_encrypt_decrypt_string(self, encryption):
         """Test encrypting and decrypting a string."""
         plaintext = "sensitive data"
@@ -89,11 +80,6 @@ class TestFieldEncryption:
         decrypted = encryption.decrypt(ciphertext)
         assert decrypted == plaintext
 
-    @pytest.mark.skipif(
-        "AESGCM"
-        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
-        reason="AESGCM not available",
-    )
     def test_encrypt_bytes(self, encryption):
         """Test encrypting bytes."""
         plaintext = b"binary data"
@@ -103,11 +89,6 @@ class TestFieldEncryption:
 
         assert decrypted == plaintext.decode()
 
-    @pytest.mark.skipif(
-        "AESGCM"
-        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
-        reason="AESGCM not available",
-    )
     def test_deterministic_encryption(self, encryption):
         """Test deterministic encryption produces same output."""
         plaintext = "test@example.com"
@@ -119,11 +100,6 @@ class TestFieldEncryption:
         # Should be the same (deterministic)
         assert ciphertext1 == ciphertext2
 
-    @pytest.mark.skipif(
-        "AESGCM"
-        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
-        reason="AESGCM not available",
-    )
     def test_randomized_encryption(self, encryption):
         """Test randomized encryption produces different output."""
         plaintext = "test@example.com"
@@ -191,11 +167,6 @@ class TestSearchableEncryption:
         field_encryption = FieldEncryption(key_provider=provider)
         return SearchableEncryption(encryption=field_encryption)
 
-    @pytest.mark.skipif(
-        "AESGCM"
-        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
-        reason="AESGCM not available",
-    )
     def test_prepare_for_insert(self, searchable):
         """Test preparing data for insert."""
         result = searchable.prepare_for_insert("test@example.com")
@@ -287,11 +258,6 @@ class TestSetupEncryption:
 class TestIntegration:
     """Integration tests for encryption."""
 
-    @pytest.mark.skipif(
-        "AESGCM"
-        not in dir(__import__("fastx_dashboards.core.encryption", fromlist=[""])),
-        reason="AESGCM not available",
-    )
     def test_full_workflow(self):
         """Test a complete encryption workflow."""
         from dataclasses import dataclass
@@ -336,13 +302,6 @@ class TestIntegration:
 
         # Verify decryption
         assert decrypted["ssn"] == test_data["ssn"]
-
-
-# Try to import AESGCM for conditional tests
-try:
-    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-except ImportError:
-    AESGCM = None
 
 
 if __name__ == "__main__":

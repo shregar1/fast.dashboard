@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to **fast_dashboards** will be documented in this file.
+All notable changes to **fastx_dashboards** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -26,4 +26,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`providers`**: `DashboardEmbedProvider`, `MetabaseEmbedProvider` (JWT; optional `PyJWT`), `GrafanaEmbedProvider` (signed `/d/{uid}/{slug}` URLs).
 - **`__version__`** = `0.2.0`; lazy exports on the package root for the above.
 - **Coverage config**: `omit` for large integration-only dashboard routers so `pytest --cov` reflects unit-tested modules (`embed_signing`, `providers`, `layout`, `api_dashboard/__init__`).
-

@@ -1,4 +1,4 @@
-# Contributing to fast_dashboards
+# Contributing to fastx_dashboards
 
 Thank you for your interest in contributing.
 
@@ -7,7 +7,7 @@ Thank you for your interest in contributing.
 This package usually lives inside the **FastMVC** monorepo. From the repo root, install in editable mode:
 
 ```bash
-cd fast_dashboards
+cd fastx_dashboards
 pip install -e ".[dev]" || pip install -e .
 pip install -r requirements.txt
 pre-commit install
@@ -16,7 +16,7 @@ pre-commit install
 Standalone clone (if this package is its own git remote):
 
 ```bash
-git clone https://github.com/your-org/fast_dashboards.git
+git clone https://github.com/your-org/fastx_dashboards.git
 cd fastmvc-dashboards
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\\Scripts\\activate
@@ -25,9 +25,9 @@ pip install -r requirements.txt
 pre-commit install
 ```
 
-Canonical repository URL from `pyproject.toml`: `https://github.com/your-org/fast_dashboards`.
+Canonical repository URL from `pyproject.toml`: `https://github.com/your-org/fastx_dashboards`.
 
-To copy EditorConfig, pre-commit config, and other shared files from `fast_middleware/` into every package:
+To copy EditorConfig, pre-commit config, and other shared files from `fastx_middleware/` into every package:
 
 ```bash
 # from monorepo root
@@ -42,7 +42,7 @@ Many FastMVC libraries enforce **≥95% line coverage** via `pytest-cov` (`fail_
 python3 -m pytest tests/ -q --cov=src --cov-fail-under=95
 ```
 
-(`fast_database` may use `--cov=fast_database`; `fast_dashboards` often uses `--cov=src/fast_dashboards` — see that package’s `pyproject.toml`.)
+(`fastx_database` may use `--cov=fastx_database`; `fastx_dashboards` often uses `--cov=src/fastx_dashboards` — see that package’s `pyproject.toml`.)
 
 Overview: [../docs/COVERAGE.md](../docs/COVERAGE.md).
 

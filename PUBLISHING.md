@@ -1,4 +1,4 @@
-# Publishing **fast_dashboards** to PyPI
+# Publishing **fastx_dashboards** to PyPI
 
 ## Prerequisites
 
@@ -26,6 +26,6 @@ export TWINE_PASSWORD=<pypi-token>
 twine upload dist/*
 ```
 
-- **PyPI project name:** `fast_dashboards`
-- **Typical import:** `fast_dashboards`
-- **Repository / homepage:** https://github.com/your-org/fast_dashboards
+- **PyPI project name:** `fastx_dashboards`
+- **Typical import:** `fastx_dashboards`
+- **Repository / homepage:** https://github.com/your-org/fastx_dashboards

@@ -8,6 +8,12 @@ from fastapi.testclient import TestClient
 from typing import Any
 
 
+def _assert_spa_dashboard_shell(html: str) -> None:
+    """Dashboard routes serve the React shell; copy lives in the JS bundle, not SSR HTML."""
+    assert '<title>FastMVC Dashboard</title>' in html
+    assert 'id="root"' in html
+
+
 class TestEndToEndDashboardWorkflows:
     """E2E tests for complete dashboard workflows."""
 
@@ -31,7 +37,7 @@ class TestEndToEndDashboardWorkflows:
         # Step 1: Health dashboard
         response = client.get("/dashboard/health")
         assert response.status_code == 200
-        assert "FastMVC Service Health" in response.text
+        _assert_spa_dashboard_shell(response.text)
 
         # Step 2: Check health state
         services = _get_health_services(client)
@@ -40,22 +46,22 @@ class TestEndToEndDashboardWorkflows:
         # Step 3: Queues dashboard
         response = client.get("/dashboard/queues")
         assert response.status_code == 200
-        assert "Queues & Jobs" in response.text
+        _assert_spa_dashboard_shell(response.text)
 
         # Step 4: Tenants dashboard
         response = client.get("/dashboard/tenants")
         assert response.status_code == 200
-        assert "Tenants & Auth" in response.text
+        _assert_spa_dashboard_shell(response.text)
 
         # Step 5: Secrets dashboard
         response = client.get("/dashboard/secrets")
         assert response.status_code == 200
-        assert "Secrets & Configuration" in response.text
+        _assert_spa_dashboard_shell(response.text)
 
         # Step 6: Workflows dashboard
         response = client.get("/dashboard/workflows")
         assert response.status_code == 200
-        assert "Workflows" in response.text
+        _assert_spa_dashboard_shell(response.text)
 
     def test_developer_troubleshoots_services(self):
         """E2E: Developer troubleshoots service issues.

@@ -475,19 +475,21 @@ class TestCompositeDashboardIntegration:
         app.include_router(composite_router)
         client = TestClient(app)
 
-        # Test all dashboard endpoints
+        # HTML routes serve the SPA shell; section titles render client-side
         dashboards = [
-            ("/dashboard/health", "FastMVC Service Health"),
-            ("/dashboard/queues", "Queues & Jobs"),
-            ("/dashboard/tenants", "Tenants & Auth"),
-            ("/dashboard/secrets", "Secrets & Configuration"),
-            ("/dashboard/workflows", "Workflows"),
+            "/dashboard/health",
+            "/dashboard/queues",
+            "/dashboard/tenants",
+            "/dashboard/secrets",
+            "/dashboard/workflows",
         ]
 
-        for path, expected_text in dashboards:
+        for path in dashboards:
             response = client.get(path)
             assert response.status_code == 200, f"Failed for {path}"
-            assert expected_text in response.text, f"Missing text for {path}"
+            page = response.text
+            assert '<title>FastMVC Dashboard</title>' in page, f"Bad shell for {path}"
+            assert 'id="root"' in page, f"Missing SPA mount for {path}"
 
     def test_all_state_endpoints(self):
         """Test that all state endpoints return JSON."""

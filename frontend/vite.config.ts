@@ -4,7 +4,7 @@ import path from "node:path";
 
 // Built assets are emitted into the Python package so they ship in the wheel.
 // All asset URLs are rewritten to `/dashboard/_static/...` which is served by
-// `fast_dashboards.core.spa.SpaDashboardRouter`.
+// `fastx_dashboards.core.spa.SpaDashboardRouter`.
 export default defineConfig({
   plugins: [react()],
   base: "/dashboard/_static/",
@@ -14,7 +14,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: path.resolve(__dirname, "../src/fast_dashboards/static"),
+    outDir: path.resolve(__dirname, "../src/fastx_dashboards/static"),
     emptyOutDir: true,
     assetsDir: "assets",
     sourcemap: false,

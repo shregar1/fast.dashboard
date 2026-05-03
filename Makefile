@@ -10,22 +10,22 @@ install-dev:
 	pre-commit install || true
 
 test:
-	pytest tests/ -v --cov=fast_dashboards --cov-report=term-missing || pytest -v
+	pytest tests/ -v --cov=fastx_dashboards --cov-report=term-missing || pytest -v
 
 test-fast:
 	pytest tests/ -v -x --tb=short -q || true
 
 lint:
-	ruff check fast_dashboards tests || true
+	ruff check fastx_dashboards tests || true
 
 format:
-	ruff format fast_dashboards tests || true
+	ruff format fastx_dashboards tests || true
 
 type-check:
-	mypy fast_dashboards --ignore-missing-imports || true
+	mypy fastx_dashboards --ignore-missing-imports || true
 
 security:
-	bandit -r fast_dashboards -q || true
+	bandit -r fastx_dashboards -q || true
 
 clean:
 	rm -rf build dist *.egg-info .pytest_cache .mypy_cache .ruff_cache htmlcov .coverage coverage.xml

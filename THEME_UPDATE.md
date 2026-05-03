@@ -137,12 +137,12 @@ Add before closing `</body>` tag:
 
 ## Files to Update
 
-1. `/fast_dashboards/src/fast_dashboards/operations/api_dashboard/router.py` ✅
-2. `/fast_dashboards/src/fast_dashboards/operations/health/dashboard.py`
-3. `/fast_dashboards/src/fast_dashboards/operations/queues_dashboard/router.py`
-4. `/fast_dashboards/src/fast_dashboards/operations/tenants_dashboard/router.py`
-5. `/fast_dashboards/src/fast_dashboards/operations/secrets_dashboard/router.py`
-6. `/fast_dashboards/src/fast_dashboards/operations/workflows_dashboard/router.py`
+1. `/fastx_dashboards/src/fastx_dashboards/operations/api_dashboard/router.py` ✅
+2. `/fastx_dashboards/src/fastx_dashboards/operations/health/dashboard.py`
+3. `/fastx_dashboards/src/fastx_dashboards/operations/queues_dashboard/router.py`
+4. `/fastx_dashboards/src/fastx_dashboards/operations/tenants_dashboard/router.py`
+5. `/fastx_dashboards/src/fastx_dashboards/operations/secrets_dashboard/router.py`
+6. `/fastx_dashboards/src/fastx_dashboards/operations/workflows_dashboard/router.py`
 
 ## Quick Apply Script
 
